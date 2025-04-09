@@ -4,6 +4,13 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 
+interface PageProps {
+    params: {
+        slug: string;
+    };
+    // 其他可能的属性...
+}
+
 // 获取存放 Markdown 文件的路径
 const postsDirectory = path.join(process.cwd(), 'posts');
 
