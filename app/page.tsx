@@ -1,50 +1,44 @@
-import AcmeLogo from '@/app/ui/acme-logo';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import Image from 'next/image';
+import { remark } from 'remark';
+import remarkHtml from 'remark-html';
+
+const markdownPage = `
+# CaileanSong
+
+欢迎来到我的博客！我是CaileanSong，一名在杭州工作的前端开发程序员。虽然我是一个比较安静的人，有些轻微的社交恐惧，但我对前端技术充满好奇，并乐于通过文字与大家分享我的技术心得与思考。
+
+## 我的技术背景
+
+在工作中，我主要使用 **Vue.js** 进行开发。Vue 是我最熟悉的前端框架，它简洁、灵活，能够帮助我高效地构建各种前端应用。我喜欢 Vue 的响应式数据绑定、组件化开发思想以及其生态系统中的各种工具，这些都使得开发变得更加顺畅。
+
+最近，我开始尝试接触 **React**，虽然它的理念和 Vue 有很大不同，但它的灵活性和广泛的应用让我非常感兴趣。我正在慢慢深入学习它的 **Hooks** 和 **JSX** 等特性，希望能够在未来的项目中将两者的优势结合，提升自己在前端开发上的能力。
+
+## 我的兴趣爱好
+
+除了编程，我还是一个安静的人，平时喜欢听歌，特别是一些轻音乐、古风音乐，这些音乐能帮助我放松，也能让我集中精力编程。除此之外，茶是我日常生活中必不可少的部分，喝茶让我在忙碌的工作之余感到宁静和放松。
+
+我也是一个典型的宅男，喜欢在家里玩游戏
+
+## 我的迷茫与期望
+
+作为一名前端开发者，我时常会感到对技术提升的迷茫。前端技术日新月异，框架和工具层出不穷，每次都让我陷入选择困难中。我希望能通过这个博客与更多志同道合的伙伴进行交流，分享经验，也希望能从大家的建议中找到新的方向。
+
+我也很希望能够从更多的技术前辈和同伴那里获得一些指引，帮助我在前端开发这条路上走得更远。无论是关于技术架构的选择，还是职业发展的规划，任何建议都将对我非常宝贵。
+
+## 未来的探索
+
+未来，我希望自己能在前端开发的领域中不断深入，无论是 **性能优化**、**前端架构设计** 还是 **跨平台开发**，都能有所探索和实践。也期待能和更多的开发者一起讨论技术，提升自己的技术能力，拓宽视野，甚至合作完成一些有趣的项目。
+
+---
+
+感谢你花时间阅读我的自我介绍，如果你对我的博客感兴趣或有任何建议，欢迎留言交流！我期待与更多的伙伴一起成长，共同探索前端技术的无限可能。
+
+#
+`
+const contentHtml = remark().use(remarkHtml).processSync(markdownPage).toString()
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
-        {/* <AcmeLogo /> */}
-      </div>
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-        <div
-  className="relative w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-black"
-/>
-          <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
-            </a>
-            , brought to you by Vercel.
-          </p>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            alt='Screenshots of the dashboard project showing desktop version'
-            className="hidden md:block"
-          />
-           <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            alt='Screenshots of the dashboard project showing mobile version'
-            className="sm:block md:hidden"
-          />
-        </div>
-      </div>
+    <main>
+      <div className='mt-8 text-light-body prose' dangerouslySetInnerHTML={{ __html: contentHtml }} />
     </main>
   );
 }
