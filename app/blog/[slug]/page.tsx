@@ -4,18 +4,11 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 
-// 声明 PageProps 的类型，params 直接是一个包含 slug 字符串的对象
-interface PageProps {
-    params: {
-        slug: string;
-    };
-}
-
 // 获取 Markdown 文件所在的路径
 const postsDirectory = path.join(process.cwd(), 'posts');
 
 // 根据 slug 获取文章内容
-async function getPostData(slug: string) {
+function getPostData(slug: string) {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
@@ -31,9 +24,9 @@ async function getPostData(slug: string) {
 }
 
 // 页面组件，params 作为参数传递，异步获取文章内容
-export default async function Post({ params }: PageProps) {
+export default function Post({ params }: { params: { slug: string } }) {
     // 使用 params.slug 获取文章内容
-    const postData = await getPostData(params.slug);
+    const postData = getPostData(params.slug);
 
     return (
         <div>
