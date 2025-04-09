@@ -21,7 +21,8 @@ async function getPostData(slug: string) {
 
     return {
         contentHtml,
-        ...data,
+        title: data.title || 'Undefind', // 设置默认标题
+        date: data.date || 'Default Date', // 设置默认日期
     };
 }
 
