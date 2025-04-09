@@ -3,8 +3,13 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
-import { GetStaticPaths, GetStaticProps } from 'next';
 
+interface PageProps {
+    params: {
+        slug: string;
+    };
+    // 其他可能的属性...
+}
 // 获取存放 Markdown 文件的路径
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -23,36 +28,9 @@ async function getPostData(slug: string) {
         ...data,
     };
 }
-// 动态获取静态路径
-export const getStaticPaths: GetStaticPaths = async () => {
-    const fileNames = fs.readdirSync(postsDirectory);
-    const paths = fileNames.map((fileName) => {
-        return {
-            params: {
-                slug: fileName.replace(/\.md$/, ''), // 提取 slug
-            },
-        };
-    });
-
-    return {
-        paths,
-        fallback: false, // 设置为 false，表示其他的路径返回 404
-    };
-};
-
-// 获取每个页面的静态数据
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const postData = await getPostData(params?.slug as string);
-
-    return {
-        props: {
-            postData,
-        },
-    };
-};
 
 // 使用 `fetch` 或 `Promise` 获取静态数据
-export default async function Post({ params }: { params: { slug: string } }) {
+export default async function Post({ params }: PageProps) {
     const postData = await getPostData(params.slug);
 
     return (
