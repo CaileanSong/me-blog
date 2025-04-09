@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -8,7 +9,7 @@ import remarkHtml from 'remark-html';
 const postsDirectory = path.join(process.cwd(), 'posts');
 
 // 根据 slug 获取文章内容
-function getPostData(slug: string) {
+async function getPostData(slug: string) {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
@@ -24,9 +25,13 @@ function getPostData(slug: string) {
 }
 
 // 页面组件，params 作为参数传递，异步获取文章内容
-export default function Post({ params }: { params: { slug: string } }) {
+export default async function Post({ params }: { params: { slug: string } }) {
     // 使用 params.slug 获取文章内容
-    const postData = getPostData(params.slug);
+    const postData = await getPostData(params.slug);
+
+    if (!postData) {
+        notFound();
+    }
 
     return (
         <div>
