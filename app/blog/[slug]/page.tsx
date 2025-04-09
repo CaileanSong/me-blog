@@ -7,7 +7,7 @@ import remarkHtml from 'remark-html';
 
 type PageProps = {
     params: {
-        slug: string
+        slug: any
     }
 }
 // 获取 Markdown 文件所在的路径
