@@ -33,7 +33,7 @@ export default async function Page() {
             <h1>posts</h1>
             {allPostsData.map(({ id, title, date }) => (
                 <div key={id} className='flex items-center mt-2'>
-                    <Link href={`/blog/${id}`} className='flex-1 max-w-xs truncate text-light-focus hover:text-light-text dark:text-dark-focus dark:hover:text-dark-text '>
+                    <Link href={`/${id}`} className='flex-1 max-w-xs truncate text-light-focus hover:text-light-text dark:text-dark-focus dark:hover:text-dark-text '>
                         <span >{title}</span>
                     </Link>
                     <span className='ml-2 whitespace-nowrap'>{date}</span>
