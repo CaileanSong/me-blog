@@ -37,10 +37,10 @@ export default async function Post(props: { params: Promise<{ slug: string }> })
     }
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold mb-4 text-light-text"># {postData.title}</h1>
-            <p className="text-light-time">{postData.date}</p>
-            <div className="mt-8 text-light-body prose" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        <div className='animate-slideUp w-full'>
+            <h2 className="text-light-text [width:33ch] text-3xl font-bold m-auto"># {postData.title}</h2>
+            <p className="text-light-time prose m-auto">{postData.date}</p>
+            <div className="mt-8 text-light-body prose m-auto" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
         </div>
     );
 }

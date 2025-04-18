@@ -24,19 +24,31 @@ async function getAllPostData() {
     return allPostsData;
 }
 
+// 获取日期的月份并转化为英文缩写
+function getMonthName(date: string) {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNumber = parseInt(date.split('-')[1]);
+    return monthNames[monthNumber - 1];
+}
+// 获取日期获取日
+function getDay(date: string) {
+    const day = parseInt(date.split('-')[2]);
+    return day;
+}
+
 // 使用 `fetch` 或 `Promise` 获取静态数据
 export default async function Page() {
     const allPostsData = await getAllPostData();
 
     return (
-        <div>
-            <h1>posts</h1>
+        <div className='w-full max-w-2xl mx-auto p-4 animate-slideUp'>
+            <h1 className='text-4xl mb-4'>posts</h1>
             {allPostsData.map(({ id, title, date }) => (
-                <div key={id} className='flex items-center mt-2'>
-                    <Link href={`/${id}`} className='flex-1 max-w-xs truncate text-light-focus hover:text-light-text dark:text-dark-focus dark:hover:text-dark-text '>
+                <div key={id} className='group'>
+                    <Link href={`/${id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
                         <span >{title}</span>
                     </Link>
-                    <span className='ml-2 whitespace-nowrap'>{date}</span>
+                    <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(date)} {getDay(date)}</span>
                 </div>
             ))}
         </div>

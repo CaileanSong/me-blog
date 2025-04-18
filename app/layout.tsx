@@ -1,5 +1,7 @@
+"use client"
 import NavLink from "./ui/nav-link";
 import "./ui/global.css";
+import { useEffect, useState } from "react";
 // 导出一个默认的React函数组件RootLayout，该组件接收一个包含children属性的对象作为参数
 export default function RootLayout({
   children,
@@ -13,7 +15,7 @@ export default function RootLayout({
           <div className="w-full flex flex-row-reverse mt-6 pr-10">
             <NavLink />
           </div>
-          <div className="flex-grow p-6 md:overflow-y-auto md:p-10">
+          <div className={"flex-grow p-6 md:overflow-y-auto md:p-10 "}>
             {children}
           </div>
         </div>
