@@ -1,6 +1,6 @@
 ---
 title: "about me"
-date: "2025-04-011"
+date: "2025-04-11"
 ---
 
 ## About me

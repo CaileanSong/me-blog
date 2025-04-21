@@ -21,7 +21,16 @@ async function getAllPostData() {
         };
 
     });
-    return allPostsData;
+    // allPostsData根据年分组
+    const groupByYear = allPostsData.reduce((acc, cur) => {
+        const year = getYear(cur.date);
+        if (!acc[year]) {
+            acc[year] = [];
+        }
+        acc[year].push(cur);
+        return acc;
+    }, {})
+    return groupByYear;
 }
 
 // 获取日期的月份并转化为英文缩写
@@ -36,21 +45,48 @@ function getDay(date: string) {
     return day;
 }
 
-// 使用 `fetch` 或 `Promise` 获取静态数据
+// 获取日期获取年
+function getYear(date: string) {
+    const year = parseInt(date.split('-')[0]);
+    return year;
+}
+
+
 export default async function Page() {
-    const allPostsData = await getAllPostData();
+    const groupByYear = await getAllPostData();
 
     return (
         <div className='w-full max-w-2xl mx-auto p-4 animate-slideUp'>
             <h1 className='text-4xl mb-4'>posts</h1>
-            {allPostsData.map(({ id, title, date }) => (
+            {Object.entries(groupByYear).map(([year, events]) => (
+                <div key={year} className='mt-20'>
+                    <div className='relative text slide-enter pointer-events-none'>
+                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-8'>{year}</div>
+                    </div>
+                    <ul>
+                        {events.map(event => (
+                            // <li key={event.id}>
+                            //     <h3>{event.title}</h3>
+                            //     <p>{event.date}</p>
+                            // </li>
+                            <div key={event.id} className='group'>
+                                <Link href={`/${event.id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
+                                    <span >{event.title}</span>
+                                </Link>
+                                <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(event.date)} {getDay(event.date)}</span>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+            {/* {allPostsData.map(({ id, title, date }) => (
                 <div key={id} className='group'>
                     <Link href={`/${id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
                         <span >{title}</span>
                     </Link>
                     <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(date)} {getDay(date)}</span>
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 }
