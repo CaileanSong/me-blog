@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Link from 'next/link';
+import Post from '../[slug]/page';
 
 // 获取存放 Markdown 文件的路径
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -21,8 +22,14 @@ async function getAllPostData() {
         };
 
     });
+    interface Post {
+        date: Date;
+        title: string;
+        id: string;
+        // 其他 Post 的属性...
+    }
     // allPostsData根据年分组
-    const groupByYear = allPostsData.reduce((acc, cur) => {
+    const groupByYear = allPostsData.reduce<{ [key: number]: Post[] }>((acc, cur) => {
         const year = getYear(cur.date);
         if (!acc[year]) {
             acc[year] = [];
