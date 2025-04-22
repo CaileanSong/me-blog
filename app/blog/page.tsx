@@ -23,7 +23,7 @@ async function getAllPostData() {
 
     });
     interface Post {
-        date: Date;
+        date: string;
         title: string;
         id: string;
         // 其他 Post 的属性...
