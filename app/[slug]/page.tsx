@@ -4,6 +4,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
+import Link from 'next/link';
 
 
 // 获取 Markdown 文件所在的路径
@@ -41,6 +42,10 @@ export default async function Post(props: { params: Promise<{ slug: string }> })
             <h2 className="text-light-text [width:33ch] text-3xl font-bold m-auto"># {postData.title}</h2>
             <p className="text-light-time prose m-auto">{postData.date}</p>
             <div className="mt-8 text-light-body prose m-auto" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+            <div className='prose m-auto'>
+                <Link href='/' ><span>cd ..</span></Link>
+            </div>
+
         </div>
     );
 }

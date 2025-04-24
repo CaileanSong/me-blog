@@ -4,7 +4,7 @@ import remarkHtml from 'remark-html';
 const markdownPage = `
 # CaileanSong
 
-欢迎来到我的博客！我是CaileanSong，一名在杭州工作的前端开发程序员。虽然我是一个比较安静的人，有些轻微的社交恐惧，但我对前端技术充满好奇，并乐于通过文字与大家分享我的技术心得与思考。
+欢迎来到我的博客！我是[CaileanSong](https://github.com/CaileanSong)，一名在杭州工作的前端开发程序员。虽然我是一个比较安静的人，有些轻微的社交恐惧，但我对前端技术充满好奇，并乐于通过文字与大家分享我的技术心得与思考。
 
 ## 我的技术背景
 

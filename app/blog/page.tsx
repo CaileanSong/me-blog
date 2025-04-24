@@ -68,14 +68,11 @@ export default async function Page() {
             {Object.entries(groupByYear).map(([year, events]) => (
                 <div key={year} className='mt-20'>
                     <div className='relative text slide-enter pointer-events-none'>
-                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-8'>{year}</div>
+                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-10'>{year}</div>
                     </div>
                     <ul>
                         {events.map(event => (
-                            // <li key={event.id}>
-                            //     <h3>{event.title}</h3>
-                            //     <p>{event.date}</p>
-                            // </li>
+
                             <div key={event.id} className='group'>
                                 <Link href={`/${event.id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
                                     <span >{event.title}</span>
@@ -86,14 +83,6 @@ export default async function Page() {
                     </ul>
                 </div>
             ))}
-            {/* {allPostsData.map(({ id, title, date }) => (
-                <div key={id} className='group'>
-                    <Link href={`/${id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
-                        <span >{title}</span>
-                    </Link>
-                    <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(date)} {getDay(date)}</span>
-                </div>
-            ))} */}
         </div>
     );
 }
