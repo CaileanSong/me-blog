@@ -11,10 +11,10 @@ const links = [
         name: "Blog",
         href: "/blog",
     },
-    {
-        name: "Projects",
-        href: "/projects",
-    }
+    // {
+    //     name: "Projects",
+    //     href: "/projects",
+    // }
 ]
 export default function NavLink() {
     const pathname = usePathname()
