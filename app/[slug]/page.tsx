@@ -43,7 +43,7 @@ export default async function Post(props: { params: Promise<{ slug: string }> })
             <p className="text-light-time prose m-auto">{postData.date}</p>
             <div className="mt-8 text-light-body prose m-auto" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
             <div className='prose m-auto'>
-                <Link href='/' ><span>cd ..</span></Link>
+                <Link href='/blog' ><span>cd ..</span></Link>
             </div>
 
         </div>
