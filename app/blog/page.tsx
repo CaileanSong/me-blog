@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Link from 'next/link';
+import Post from '../[slug]/page';
 
 // 获取存放 Markdown 文件的路径
 const postsDirectory = path.join(process.cwd(), 'posts');
@@ -21,22 +22,65 @@ async function getAllPostData() {
         };
 
     });
-    return allPostsData;
+    interface Post {
+        date: string;
+        title: string;
+        id: string;
+        // 其他 Post 的属性...
+    }
+    // allPostsData根据年分组
+    const groupByYear = allPostsData.reduce<{ [key: number]: Post[] }>((acc, cur) => {
+        const year = getYear(cur.date);
+        if (!acc[year]) {
+            acc[year] = [];
+        }
+        acc[year].push(cur);
+        return acc;
+    }, {})
+    return groupByYear;
 }
 
-// 使用 `fetch` 或 `Promise` 获取静态数据
+// 获取日期的月份并转化为英文缩写
+function getMonthName(date: string) {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNumber = parseInt(date.split('-')[1]);
+    return monthNames[monthNumber - 1];
+}
+// 获取日期获取日
+function getDay(date: string) {
+    const day = parseInt(date.split('-')[2]);
+    return day;
+}
+
+// 获取日期获取年
+function getYear(date: string) {
+    const year = parseInt(date.split('-')[0]);
+    return year;
+}
+
+
 export default async function Page() {
-    const allPostsData = await getAllPostData();
+    const groupByYear = await getAllPostData();
 
     return (
-        <div>
-            <h1>posts</h1>
-            {allPostsData.map(({ id, title, date }) => (
-                <div key={id} className='flex items-center mt-2'>
-                    <Link href={`/blog/${id}`} className='flex-1 max-w-xs truncate text-light-focus hover:text-light-text dark:text-dark-focus dark:hover:text-dark-text '>
-                        <span >{title}</span>
-                    </Link>
-                    <span className='ml-2 whitespace-nowrap'>{date}</span>
+        <div className='w-full max-w-2xl mx-auto p-4 animate-slideUp'>
+            <h1 className='text-4xl mb-4'>posts</h1>
+            {Object.entries(groupByYear).map(([year, events]) => (
+                <div key={year} className='mt-20'>
+                    <div className='relative text slide-enter pointer-events-none'>
+                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-10'>{year}</div>
+                    </div>
+                    <ul>
+                        {events.map(event => (
+
+                            <div key={event.id} className='group'>
+                                <Link href={`/${event.id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
+                                    <span >{event.title}</span>
+                                </Link>
+                                <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(event.date)} {getDay(event.date)}</span>
+                            </div>
+                        ))}
+                    </ul>
                 </div>
             ))}
         </div>

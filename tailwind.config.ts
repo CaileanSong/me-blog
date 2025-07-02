@@ -20,6 +20,8 @@ const config: Config = {
           hover: '#0059b3',
           // 未聚焦颜色
           focus: '#77787b',
+          // 浅灰色
+          gray: '#a1a3a6',
           // 时间颜色
           time: '#77787b',
           // 正文颜色
@@ -34,11 +36,18 @@ const config: Config = {
         },
       },
     },
+    animation: {
+      slideUp: 'slideUp 1.5s ease-out forwards',  // 延长动画持续时间    
+    },
     keyframes: {
       shimmer: {
         '100%': {
           transform: 'translateX(100%)',
         },
+      },
+      slideUp: {
+        '0%': { transform: 'translateY(5%)', opacity: '0' },
+        '100%': { transform: 'translateY(0)', opacity: '1' },
       },
     },
   },
