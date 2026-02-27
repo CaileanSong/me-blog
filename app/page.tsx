@@ -38,7 +38,7 @@ const contentHtml = remark().use(remarkHtml).processSync(markdownPage).toString(
 export default function Page() {
   return (
     <main>
-      <div className='mt-8 text-light-body prose animate-slideUp m-auto' dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <div className='mt-8 text-light-body dark:text-gray-300 prose dark:prose-invert animate-slideUp m-auto' dangerouslySetInnerHTML={{ __html: contentHtml }} />
     </main>
   );
 }

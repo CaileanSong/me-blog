@@ -13,6 +13,9 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 // 根据 slug 获取文章内容
 async function getPostData(slug: string) {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
+    if (!fs.existsSync(fullPath)) {
+        return null;
+    }
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
     const { data, content } = matter(fileContents);
@@ -39,10 +42,10 @@ export default async function Post(props: { params: Promise<{ slug: string }> })
 
     return (
         <div className='animate-slideUp w-full'>
-            <h2 className="text-light-text [width:33ch] text-3xl font-bold m-auto"># {postData.title}</h2>
-            <p className="text-light-time prose m-auto">{postData.date}</p>
-            <div className="mt-8 text-light-body prose m-auto" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-            <div className='prose m-auto'>
+            <h2 className="text-light-text dark:text-dark-text [width:33ch] text-3xl font-bold m-auto"># {postData.title}</h2>
+            <p className="text-light-time dark:text-gray-400 prose dark:prose-invert m-auto">{postData.date}</p>
+            <div className="mt-8 text-light-body dark:text-gray-300 prose dark:prose-invert m-auto" dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+            <div className='prose dark:prose-invert m-auto'>
                 <Link href='/blog' ><span>cd ..</span></Link>
             </div>
 
