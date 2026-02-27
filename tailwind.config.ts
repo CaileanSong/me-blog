@@ -28,11 +28,12 @@ const config: Config = {
           body: '#4f4f4f',
         },
         dark: {
-          background: '#000000',
+          background: '#121212',
           text: '#ffffff',
           primary: '#00bcd4',
           hover: '#009ca3',
           focus: '#77787b',
+          h1: '#ffffff',
         },
       },
     },

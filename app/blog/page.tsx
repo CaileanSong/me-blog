@@ -64,20 +64,20 @@ export default async function Page() {
 
     return (
         <div className='w-full max-w-2xl mx-auto p-4 animate-slideUp'>
-            <h1 className='text-4xl mb-4'>posts</h1>
+            <h1 className='text-4xl mb-4 text-light-text dark:text-dark-text'>posts</h1>
             {Object.entries(groupByYear).map(([year, events]) => (
                 <div key={year} className='mt-20'>
                     <div className='relative text slide-enter pointer-events-none'>
-                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-10'>{year}</div>
+                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-10 text-light-text dark:text-dark-text'>{year}</div>
                     </div>
                     <ul>
                         {events.map(event => (
 
                             <div key={event.id} className='group'>
-                                <Link href={`/${event.id}`} className='text-xl text-light-focus group-hover:text-light-text transition duration-5000'>
+                                <Link href={`/${event.id}`} className='text-xl text-light-focus dark:text-dark-focus group-hover:text-light-text dark:group-hover:text-dark-text transition duration-5000'>
                                     <span >{event.title}</span>
                                 </Link>
-                                <span className='text-sm text-light-gray group-hover:text-light-focus cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(event.date)} {getDay(event.date)}</span>
+                                <span className='text-sm text-light-gray dark:text-dark-focus group-hover:text-light-focus dark:group-hover:text-dark-text cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(event.date)} {getDay(event.date)}</span>
                             </div>
                         ))}
                     </ul>
