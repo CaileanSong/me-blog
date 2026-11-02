@@ -1,88 +1,46 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 import Link from 'next/link';
-import Post from '../[slug]/page';
+import { getGroupedPostsByYear } from '../lib/posts';
 
-// 获取存放 Markdown 文件的路径
-const postsDirectory = path.join(process.cwd(), 'posts');
-
-// 获取所有 Markdown 文件的元数据
-async function getAllPostData() {
-    const fileNames = fs.readdirSync(postsDirectory);
-    const allPostsData = fileNames.map((fileName) => {
-        const fullPath = path.join(postsDirectory, fileName);
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
-        const { data } = matter(fileContents);
-
-        return {
-            id: fileName.replace(/\.md$/, ''),
-            title: data.title,
-            date: data.date,
-        };
-
-    });
-    interface Post {
-        date: string;
-        title: string;
-        id: string;
-        // 其他 Post 的属性...
-    }
-    // allPostsData根据年分组
-    const groupByYear = allPostsData.reduce<{ [key: number]: Post[] }>((acc, cur) => {
-        const year = getYear(cur.date);
-        if (!acc[year]) {
-            acc[year] = [];
-        }
-        acc[year].push(cur);
-        return acc;
-    }, {})
-    return groupByYear;
-}
-
-// 获取日期的月份并转化为英文缩写
 function getMonthName(date: string) {
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthNumber = parseInt(date.split('-')[1]);
-    return monthNames[monthNumber - 1];
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthNumber = Number.parseInt(date.split('-')[1] ?? '1', 10);
+  return monthNames[monthNumber - 1] ?? 'Jan';
 }
-// 获取日期获取日
+
 function getDay(date: string) {
-    const day = parseInt(date.split('-')[2]);
-    return day;
+  return Number.parseInt(date.split('-')[2] ?? '1', 10);
 }
-
-// 获取日期获取年
-function getYear(date: string) {
-    const year = parseInt(date.split('-')[0]);
-    return year;
-}
-
 
 export default async function Page() {
-    const groupByYear = await getAllPostData();
+  const groupedPosts = getGroupedPostsByYear();
 
-    return (
-        <div className='w-full max-w-2xl mx-auto p-4 animate-slideUp'>
-            <h1 className='text-4xl mb-4 text-light-text dark:text-dark-text'>posts</h1>
-            {Object.entries(groupByYear).map(([year, events]) => (
-                <div key={year} className='mt-20'>
-                    <div className='relative text slide-enter pointer-events-none'>
-                        <div className=' absolute text-9xl opacity-10 font-bold -top-16 -left-10 text-light-text dark:text-dark-text'>{year}</div>
-                    </div>
-                    <ul>
-                        {events.map(event => (
-
-                            <div key={event.id} className='group'>
-                                <Link href={`/${event.id}`} className='text-xl text-light-focus dark:text-dark-focus group-hover:text-light-text dark:group-hover:text-dark-text transition duration-5000'>
-                                    <span >{event.title}</span>
-                                </Link>
-                                <span className='text-sm text-light-gray dark:text-dark-focus group-hover:text-light-focus dark:group-hover:text-dark-text cursor-pointer transition duration-5000'>&nbsp;&nbsp;&nbsp;{getMonthName(event.date)} {getDay(event.date)}</span>
-                            </div>
-                        ))}
-                    </ul>
-                </div>
+  return (
+    <div className="w-full max-w-2xl mx-auto p-4 animate-slideUp">
+      <h1 className="text-4xl mb-4 text-light-text dark:text-dark-text">posts</h1>
+      {groupedPosts.map(({ year, posts }) => (
+        <section key={year} className="mt-20">
+          <div className="relative text slide-enter pointer-events-none">
+            <div className="absolute text-9xl opacity-10 font-bold -top-16 -left-10 text-light-text dark:text-dark-text">
+              {year}
+            </div>
+          </div>
+          <ul className="space-y-2">
+            {posts.map((post) => (
+              <li key={post.id} className="group">
+                <Link
+                  href={`/blog/${post.id}`}
+                  className="text-xl text-light-focus dark:text-dark-focus group-hover:text-light-text dark:group-hover:text-dark-text transition duration-5000"
+                >
+                  <span>{post.title}</span>
+                </Link>
+                <span className="text-sm text-light-gray dark:text-dark-focus group-hover:text-light-focus dark:group-hover:text-dark-text cursor-pointer transition duration-5000">
+                  &nbsp;&nbsp;&nbsp;{getMonthName(post.date)} {getDay(post.date)}
+                </span>
+              </li>
             ))}
-        </div>
-    );
+          </ul>
+        </section>
+      ))}
+    </div>
+  );
 }
